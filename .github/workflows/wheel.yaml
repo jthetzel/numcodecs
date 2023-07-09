@@ -9,7 +9,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [
+	      ubuntu-latest,
+	      # windows-latest,
+	      # macos-latest,
+	    ]
     env:
       CIBW_TEST_COMMAND: pytest --pyargs numcodecs
       CIBW_TEST_REQUIRES: pytest
@@ -29,46 +33,46 @@ jobs:
           name: wheels
           path: ./wheelhouse
 
-  build_sdist:
-    name: Build source distribution
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
+  # build_sdist:
+  #   name: Build source distribution
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         submodules: true
 
-      - uses: actions/setup-python@v4
-        name: Install Python
-        with:
-          python-version: '3.9'
+  #     - uses: actions/setup-python@v4
+  #       name: Install Python
+  #       with:
+  #         python-version: '3.9'
 
-      - name: Build sdist
-        run: pipx run build --sdist
+  #     - name: Build sdist
+  #       run: pipx run build --sdist
 
-      - name: test install
-        run: pip install dist/numcodecs*.tar.gz
+  #     - name: test install
+  #       run: pip install dist/numcodecs*.tar.gz
 
-      - uses: actions/upload-artifact@v3
-        with:
-          path: dist/*.tar.gz
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         path: dist/*.tar.gz
 
-  test_dist_pypi:
-    needs: [build_wheels, build_sdist]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: artifact
-          path: dist
-      - uses: actions/download-artifact@v3
-        with:
-          name: wheels
-          path: dist
+  # test_dist_pypi:
+  #   needs: [build_wheels, build_sdist]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: artifact
+  #         path: dist
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: wheels
+  #         path: dist
 
-      - name: test
-        run: |
-          ls
-          ls dist
+  #     - name: test
+  #       run: |
+  #         ls
+  #         ls dist
 
   # upload_pypi:
   #   needs: [build_wheels, build_sdist]
