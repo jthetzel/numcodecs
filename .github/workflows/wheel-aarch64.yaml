@@ -22,7 +22,7 @@ jobs:
       CIBW_ENVIRONMENT: "DISABLE_NUMCODECS_AVX2=1 DISABLE_NUMCODECS_SSE2=1"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
